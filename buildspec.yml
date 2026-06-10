@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "No installation required for static HTML/JS files."
+  pre_build:
+    commands:
+      - echo "Preparing to deploy to AWS S3 in Mumbai (ap-south-1)..."
+  build:
+    commands:
+      - echo "Syncing files to S3 bucket..."
+      # The --delete flag removes files in S3 that were deleted in GitHub
+      - aws s3 sync . s3://static-website-hostig --delete --exclude ".git/*" --exclude "buildspec.yml"
+  post_build:
+    commands:
+      - echo "Deployment complete! Your latest changes are live."
